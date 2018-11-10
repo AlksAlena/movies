@@ -1,0 +1,33 @@
+.content__movie--details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+mat-card {
+  flex-basis: 42%;
+}
+mat-grid-tile {
+  background-color: #999;
+}
+.card__btn--back {
+  float: right;
+}
+.card__divider {
+  background-color: #aaa;
+}
+.recommendations__section--divider {
+  background-color: #999;
+  margin-top: 30px;
+}
+.card__icon--age {
+  position: relative;
+  top: 6px;
+}
+.card__company--logo {
+  background-color: white;
+  margin-left: 10px;
+  padding: 5px;
+}
+.card__country--abbr {
+  margin: 0 5px;
+}

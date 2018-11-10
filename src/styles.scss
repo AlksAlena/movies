@@ -1,0 +1,41 @@
+@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+@import 'variables';
+@import '../node_modules/font-awesome/scss/font-awesome';
+
+html {
+  height: 100%;
+}
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Roboto, sans-serif;
+  min-height: 100%;
+  display: flex;
+}
+.fa {
+  margin-right: 10px;
+}
+app-root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+app-main {
+  flex: 1;
+  display: flex;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+app-popular-movies,
+app-favorite-movies,
+app-movie-detail,
+app-not-found {
+  flex: 1 1 80%;
+  padding: 0 20px 20px;
+}
+.content {
+  margin: 0 20px 20px;
+}
+.content__title {
+  flex-basis: 100%;
+}

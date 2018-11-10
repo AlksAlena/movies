@@ -1,0 +1,133 @@
+<div class="content content__movie--details">
+  <h2 class="content__title">Details of the movie</h2>
+
+  <mat-card *ngIf="movie">
+    <mat-card-header>
+      <mat-card-title>
+        <h3>{{movie.title | uppercase}}</h3>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <h4>genres: {{movie.genres}}</h4>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="{{BaseImgURL + movie.poster_path}}" alt="{{movie.title}}">
+    <mat-card-actions>
+      <button mat-icon-button
+        *ngIf="movie.favorite"
+        aria-label="Button that removes the movie from your collection of favorites">
+        <mat-icon aria-label="Favorite movie"
+          (click)="favoriteService.deleteFavoriteMovie(movie.id, movie)">star</mat-icon>
+      </button>
+      <button mat-icon-button
+        *ngIf="!movie.favorite"
+        aria-label="Button that adds the movie to your collection of favorites">
+        <mat-icon aria-label="Favorite movie"
+          (click)="favoriteService.addFavoriteMovie(movie.id, movie)">star_border</mat-icon>
+      </button>
+      <button mat-button class="card__btn--back" (click)="goBack()">BACK</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card *ngIf="movie">
+    <mat-card-header>
+      <mat-card-title>
+        <h3>Primary information about a movie</h3>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <h4 *ngIf="movie.adult">age limit: 
+          <mat-icon class="card__icon--age" aria-label="Adult movie">whatshot</mat-icon>
+        </h4>
+        <h4 *ngIf="!movie.adult">age limit: 
+          <mat-icon class="card__icon--age" aria-label="Movie for children">child_care</mat-icon>
+        </h4>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item *ngIf="movie.original_title">
+          Original title: {{movie.original_title}}
+        </mat-list-item>
+        <mat-list-item *ngIf="movie.popularity">
+          Popularity: {{movie.popularity}}
+        </mat-list-item>
+        <mat-list-item *ngIf="movie.production_companies.length">
+          Production companies: 
+          <div *ngFor="let company of movie.production_companies; let i = index">
+            <img *ngIf="company.logo_path && (i < 2)" 
+              src="{{BaseImgURL + company.logo_path}}" 
+              alt="{{company.name}}"
+              class="card__company--logo"
+              height="20" 
+              matTooltip="{{company.name | uppercase}}">
+            <span *ngIf="!company.logo_path && (i < 2)">{{company.name}}</span>
+          </div>
+        </mat-list-item>
+        <mat-list-item *ngIf="movie.production_countries.length">
+          Production countries: 
+          <span *ngFor="let country of movie.production_countries" 
+            class="card__country--abbr"
+            matTooltip="{{country.name}}">
+            {{country['iso_3166_1']}}
+          </span>
+        </mat-list-item>
+        <mat-list-item *ngIf="movie.budget">
+          Budget: {{movie.budget | currency}}
+        </mat-list-item>
+        <mat-list-item *ngIf="movie.release_date">
+          Release date: {{movie.release_date | date}}
+        </mat-list-item>
+        <mat-list-item *ngIf="movie.vote_average">
+          Vote average: {{movie.vote_average}}
+        </mat-list-item>
+        <mat-list-item *ngIf="movie.vote_count">
+          Vote count: {{movie.vote_count}}
+        </mat-list-item>
+        <mat-divider class="card__divider"></mat-divider>
+        <mat-list-item *ngIf="movie.overview">
+          Overview:
+        </mat-list-item>
+      </mat-list>
+      <p *ngIf="movie.overview">{{movie.overview}}</p>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+<div class="content" *ngIf="movieService.recommendedMovies.length || movieService.similarMovies.length">
+
+  <div class="recommendations" *ngIf="movieService.recommendedMovies.length">    
+    <h3>Recommendations</h3>
+
+    <mat-grid-list cols="6" rowHeight="150px" gutterSize="1rem" role="list">
+      <mat-grid-tile *ngFor="let movie of movieService.recommendedMovies" role="listitem">
+        <a [routerLink]="['/moviedetail', movie.id]">
+          <img src="{{BaseImgURL + movie.poster_path}}" alt="{{movie.title}}" height="100">
+        </a>
+        <mat-grid-tile-footer>  
+          <h1 matLine>{{movie.title}}</h1>
+          <h2 matLine>genres: {{movie.genres}}</h2>
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+  </div>  
+
+  <div class="recommendations" *ngIf="movieService.similarMovies.length">
+    <mat-divider class="recommendations__section--divider"></mat-divider>
+    <h3>Similar movies </h3>
+
+    <mat-grid-list cols="6" rowHeight="150px" gutterSize="1rem" role="list">
+      <mat-grid-tile *ngFor="let movie of movieService.similarMovies" role="listitem">
+        <a [routerLink]="['/moviedetail', movie.id]">
+          <img src="{{BaseImgURL + movie.poster_path}}" alt="{{movie.title}}" height="100">
+        </a>
+        <mat-grid-tile-footer>  
+          <h1 matLine>{{movie.title}}</h1>
+          <h2 matLine>genres: {{movie.genres}}</h2> 
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+  </div>
+
+</div>

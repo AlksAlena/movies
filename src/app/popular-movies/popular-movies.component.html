@@ -1,0 +1,46 @@
+<div class="content">
+  <h2 class="content__title">
+    <mat-form-field>
+      <input matInput placeholder="movie..." [(ngModel)]="movieTitle">
+      <i class="fa fa-search fa-lg"></i>
+    </mat-form-field>
+  </h2>
+    
+    <!-- <form novalidate
+      [formGroup]="commentForm"
+      #cform="ngForm"
+      (ngSubmit)="onSubmit()"
+    > -->
+  
+
+
+  <mat-grid-list *ngIf="movies" cols="4" rowHeight="200px" gutterSize="2rem" role="list">
+    <mat-grid-tile *ngFor="let movie of movies" role="listitem">
+      <a [routerLink]="['/moviedetail', movie.id]">
+        <img src="{{ BaseImgURL + movie.poster_path }}" alt="{{ movie.title }}" height="200">
+      </a>
+      <mat-grid-tile-footer>  
+        <h1 matLine>{{ movie.title }}</h1>
+        <h2 matLine>genres: {{ movie.genres }}</h2>        
+        <button mat-icon-button
+          *ngIf="movie.favorite"
+          aria-label="Button that removes the movie from your collection of favorites">
+          <mat-icon aria-label="Favorite movie" 
+            (click)="favoriteService.deleteFavoriteMovie(movie.id, movie)">star</mat-icon>
+        </button>
+        <button mat-icon-button
+          *ngIf="!movie.favorite"
+          aria-label="Button that adds the movie to your collection of favorites">
+          <mat-icon aria-label="Favorite movie" 
+            (click)="favoriteService.addFavoriteMovie(movie.id, movie)">star_border</mat-icon>
+        </button>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-paginator [length]="countOfResults"
+    [pageSize]="20"
+    [pageSizeOptions]="[20, 40, 100]"
+    (page)="pageEvent = $event">
+  </mat-paginator>
+</div>

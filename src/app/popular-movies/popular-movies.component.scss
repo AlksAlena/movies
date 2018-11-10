@@ -1,0 +1,23 @@
+.content__title {
+  flex-basis: 100%;
+  text-align: right;
+  background-color: rgba(0,0,0,.35);
+  padding: 0 50px;
+  border-radius: 20px;
+}
+mat-form-field {
+  width: 50%;
+  position: relative;
+  top: 15px;
+}
+.fa {
+  position: absolute;
+  right: 0;
+  color: rgba(255,255,255,.7);
+}
+mat-grid-list {
+  margin: 50px 0;
+}
+mat-paginator {
+  margin-top: 20px;
+}

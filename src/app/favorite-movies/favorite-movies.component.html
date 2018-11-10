@@ -1,0 +1,24 @@
+<div class="content">
+  <h2 class="content__title">Favorite movies</h2>
+
+  <mat-grid-list cols="4" 
+    *ngIf="favoriteService.favoriteMovies.length"    
+    rowHeight="200px" 
+    gutterSize="2rem" 
+    role="list">
+    <mat-grid-tile *ngFor="let movie of favoriteService.favoriteMovies" role="listitem">
+      <a [routerLink]="['/moviedetail', movie.id]">
+        <img src="{{BaseImgURL + movie.poster_path}}" alt="{{movie.title}}" height="200">
+      </a>
+      <mat-grid-tile-footer>  
+        <h1 matLine>{{movie.title}}</h1>
+        <h2 matLine>genres: {{movie.genres}}</h2>        
+        <button mat-icon-button 
+          *ngIf="movie.favorite"
+          aria-label="Button that removes the movie from your collection of favorites">
+          <mat-icon aria-label="Favorite movie" (click)="favoriteService.deleteFavoriteMovie(movie.id, movie)">star</mat-icon>
+        </button>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
