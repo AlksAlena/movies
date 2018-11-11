@@ -17,6 +17,8 @@ import { FavoriteMoviesComponent } from './favorite-movies/favorite-movies.compo
 
 import { MovieService } from './services/movie.service';
 import { baseImgURL } from './shared/baseurl';
+import { MoreMoviesComponent } from './more-movies/more-movies.component';
+import { MainPageMoviesComponent } from './main-page-movies/main-page-movies.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { baseImgURL } from './shared/baseurl';
     PopularMoviesComponent,
     MovieDetailComponent,
     FavoriteMoviesComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    MoreMoviesComponent,
+    MainPageMoviesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,19 +1,26 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Params, ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Movie } from '../shared/movie';
 import { MovieService } from '../services/movie.service';
 import { FavoriteService } from '../services/favorite.service';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-movie-detail',
   templateUrl: './movie-detail.component.html',
   styleUrls: ['./movie-detail.component.scss']
 })
-export class MovieDetailComponent implements OnInit {
-  id: number;
-  movie: Movie;
+export class MovieDetailComponent implements OnInit {  
+  recTitle: string = 'Recommendations';
+  simTitle: string = 'Similar movies';
+
+  id$: Observable<number>;
+  movie$: Observable<Movie>;
+  recommendedMovies$: Observable<Movie[]>;
+  similarMovies$: Observable<Movie[]>;
+
 
   constructor(
     public movieService: MovieService,
@@ -24,24 +31,15 @@ export class MovieDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  /*
-   * Each change of a /moviedetails/:id component retrieves 
-   * the new object details of the film, sets the genres, 
-   * and loads of similar and recommended films
-   */
-  this.route.params
-    .pipe(switchMap((params: Params) => {
-      this.id = +params['id'];
-      return this.movieService.getMovieDetails(this.id);
-    }))
-    .subscribe(movie => {
-      // TODO: get the movie and set the genres manually
-      this.movie = movie;
-      let genresOfMovie = this.movie.genres.map(item => item['name']);
-      this.movie.genres = genresOfMovie;
-      // TODO: check that the film from favorites
-      this.favoriteService.fromFavoriteCollection(this.movie);
-      });
+    /*
+     * Each change of a /moviedetails/:id component retrieves 
+     * the new object details of the film  
+     * and loads of similar and recommended films
+     */
+    this.id$ = this.route.params.pipe(switchMap(p => of(p.id)));
+    this.movie$ = this.id$.pipe(switchMap(id => this.movieService.getMovieDetails(id)));
+    this.recommendedMovies$ = this.id$.pipe(switchMap(id => this.movieService.getRecommendedMovies(id)));
+    this.similarMovies$ = this.id$.pipe(switchMap(id => this.movieService.getSimilarMovies(id)));
   }
   
   goBack(): void {

@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
-
+import { Observable, of } from 'rxjs';
 import { Movie } from '../shared/movie';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoriteService {
-  favoriteMovies: Movie[] = [];
-
   /**
     * Download favorite movies object from LocalStorage,
-    * update favoriteMovies property
+    * return array from object
    */
-  getFavoriteMovies(): void {
+  getFavoriteMovies(): Movie[] {
     let favoriteMoviesObject = this.downloadFromLocalStorage("favoriteMovies");
-    this.fromObjectToArray(favoriteMoviesObject);
+    return this.arrayFromObject(favoriteMoviesObject);
   }
 
   /*
@@ -26,7 +24,6 @@ export class FavoriteService {
     // TODO: sets the fill star icon that points to add movie to the favorite collection
     movie.favorite = true;
     // TODO: adds movie in favorite collection and update view
-    this.favoriteMovies.push(movie);
 
     let favoriteMoviesObject = this.downloadFromLocalStorage("favoriteMovies");
     if (favoriteMoviesObject) {
@@ -42,8 +39,7 @@ export class FavoriteService {
   /*
    * Download favorite movies object from LocalStorage,
    * search movie key and delete movie from object, 
-   * upload update object to LocalStorage,
-   * update favoriteMovies property
+   * upload update object to LocalStorage
   */
   deleteFavoriteMovie(id: number, movie: Movie): void {
     // TODO: removes star icon that points the removal movie from the favorite collection
@@ -54,8 +50,7 @@ export class FavoriteService {
     if (key in favoriteMoviesObject) {
       delete favoriteMoviesObject[key];
       this.uploadToLocalStorage("favoriteMovies", favoriteMoviesObject);
-      this.fromObjectToArray(favoriteMoviesObject);
-    }    
+    }
   }
 
   /**
@@ -67,19 +62,20 @@ export class FavoriteService {
     else movie.favorite = false;
   }
 
-  fromObjectToArray(obj: object): void {
-    this.favoriteMovies = [];
+  private arrayFromObject(obj: object): any[] {
+    let newArray = [];
     for (let key in obj) {
-      this.favoriteMovies.push(obj[key]);   
+      newArray.push(obj[key]);   
     }
+    return newArray;
   }
 
-  downloadFromLocalStorage(key: string): object {
+  private downloadFromLocalStorage(key: string): object {
     let value = JSON.parse(localStorage.getItem(key))
     return value;
   }
 
-  uploadToLocalStorage(key: string, value: any): void {
+  private uploadToLocalStorage(key: string, value: any): void {
     let serialValue = JSON.stringify(value);
     localStorage.setItem(key, serialValue);
   }

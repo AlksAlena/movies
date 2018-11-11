@@ -3,12 +3,11 @@
   text-align: right;
   background-color: rgba(0,0,0,.35);
   padding: 0 50px;
-  border-radius: 20px;
+  margin: 20px 0;
+  border-radius: 5px;
 }
 mat-form-field {
-  width: 50%;
-  position: relative;
-  top: 15px;
+  width: 30%;
 }
 .fa {
   position: absolute;
