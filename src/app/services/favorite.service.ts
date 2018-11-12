@@ -58,8 +58,12 @@ export class FavoriteService {
    */  
   fromFavoriteCollection(movie: Movie): void {
     let favoriteObject = this.downloadFromLocalStorage("favoriteMovies");
-    if (movie.id in favoriteObject) movie.favorite = true;
-    else movie.favorite = false;
+    if (!favoriteObject) return;
+    else {
+      console.log('есть список фаворитов');
+      if (movie.id in favoriteObject) movie.favorite = true;
+      else movie.favorite = false;
+    } 
   }
 
   private arrayFromObject(obj: object): any[] {

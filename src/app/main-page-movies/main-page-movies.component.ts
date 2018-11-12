@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Movie } from '../shared/movie';
+import { FavoriteService } from '../services/favorite.service';
 
 @Component({
   selector: 'app-main-page-movies',
@@ -9,9 +10,20 @@ import { Movie } from '../shared/movie';
 export class MainPageMoviesComponent implements OnInit {
   @Input() movies: Movie[] = [];
 
-  constructor(@Inject('BaseImgURL') private BaseImgURL) { }
+  constructor(
+    private favoriteService: FavoriteService,
+    @Inject('BaseImgURL') private BaseImgURL
+  ) { }
 
   ngOnInit() {
+  }
+
+  addFavoriteMovie(id: number, movie: Movie): void {
+    this.favoriteService.addFavoriteMovie(id, movie);
+  }
+
+  deleteFavoriteMovie(id: number, movie: Movie): void {
+    this.favoriteService.deleteFavoriteMovie(id, movie);
   }
 
 }

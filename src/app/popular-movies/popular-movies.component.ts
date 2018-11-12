@@ -5,7 +5,6 @@ import { debounceTime, distinctUntilChanged, switchMap, withLatestFrom, map } fr
 
 import { Movie } from '../shared/movie';
 import { MovieService } from '../services/movie.service';
-import { FavoriteService } from '../services/favorite.service';
 
 @Component({
   selector: 'app-popular-movies',
@@ -26,7 +25,6 @@ export class PopularMoviesComponent implements OnInit {
   
   constructor(
     private movieService: MovieService,
-    private favoriteService: FavoriteService,
     @Inject('BaseImgURL') private BaseImgURL
    ) { }
 
@@ -46,14 +44,6 @@ export class PopularMoviesComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((term: string) => this.movieService.getSearchMovies(term))
     );
-  }
-
-  addFavoriteMovie(id: number, movie: Movie): void {
-    this.favoriteService.addFavoriteMovie(id, movie);
-  }
-
-  deleteFavoriteMovie(id: number, movie: Movie): void {
-    this.favoriteService.deleteFavoriteMovie(id, movie);
   }
 
   // Push a search term into the observable stream.
